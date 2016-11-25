@@ -1,9 +1,10 @@
-import {HEROES} from './mock-heroes';
-import {Injectable} from 'angular2/core';
+import { Injectable } from "@angular/core";
+import { Hero } from "./hero";
+import  { HEROES } from "./mock-heroes";
 
 @Injectable()
-export class HeroService {
-  getHeroes() {
+export class heroService{
+  getHeroes(): Hero[] {
     return HEROES;
   }
 }

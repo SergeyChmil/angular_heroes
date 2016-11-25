@@ -1,25 +1,23 @@
-import {Component} from 'angular2/core';
-import {Hero} from './hero';
-import {HeroService} from './hero.service';
-import {HeroDetailComponent} from './hero-detail.component';
-
+import { Component } from '@angular/core';
+import { Hero } from "./hero";
+import {HeroService, heroService} from "./hero.service";
+import { HeroDetailComponent } from "./hero-detail.component";
 
 @Component({
-    selector: 'my-app',
-    template:`
+  selector: 'my-app',
+
+  template:`
   <h1>{{title}}</h1>
   <h2>My Heroes</h2>
   <ul class="heroes">
-    <li *ngFor="#hero of heroes"
-      [class.selected]="hero === selectedHero"
-      (click)="onSelect(hero)">
-      <span class="badge">{{hero.id}}</span> {{hero.name}}
+    <li *ngFor="let hero of heroes" [class.selected]="hero === selectedHero" (click)="onSelect(hero)">
+      <span class="badge">{{hero.id}}</span> {{hero.name}} 
     </li>
   </ul>
   <my-hero-detail [hero]="selectedHero"></my-hero-detail>
-`,
+  `,
 
-    styles:[`
+  styles: [`
   .selected {
     background-color: #CFD8DC !important;
     color: white;
@@ -28,7 +26,7 @@ import {HeroDetailComponent} from './hero-detail.component';
     margin: 0 0 2em 0;
     list-style-type: none;
     padding: 0;
-    width: 10em;
+    width: 15em;
   }
   .heroes li {
     cursor: pointer;
@@ -68,13 +66,21 @@ import {HeroDetailComponent} from './hero-detail.component';
     border-radius: 4px 0 0 4px;
   }
 `],
-directives: [HeroDetailComponent]
-
+  providers: [HeroService]
 })
-export class AppComponent {
-  public title = 'Tour of Heroes';
-  public selectedHero: Hero;
-  public heroes = Hero[];
-  onSelect(hero: Hero) { this.selectedHero = hero; }
 
+export class AppComponent  {
+  heroes = Hero[];
+  title = "Tour of Heroes";
+  selectedHero:Hero;
+
+  constructor(private  heroService: heroService){};
+
+  onSelect(hero:Hero):void{
+    this.selectedHero = hero;
+  }
+
+  getHeroes(): void {
+    this.heroes = this.heroService.getHeroes();
+  }
 }
